@@ -1,9 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = "https://plants.ces.ncsu.edu/plants/betula-lenta/common-name/black-birch/" # main source of info
-URL2 = "https://edis.ifas.ufl.edu/publication/ST094" # edis
-URL3 = "https://www.wildflower.org/plants/result.php?id_plant=BELE" # Habitat stuff
+URL = "https://plants.ces.ncsu.edu/plants/quercus-chrysolepis/" # main source of info
+URL2 = "https://edis.ifas.ufl.edu/publication/ST541" # edis
+URL3 = "https://www.wildflower.org/plants/result.php?id_plant=QUCH2" # Habitat stuff
 page = requests.get(URL)
 page2 = requests.get(URL2)
 
@@ -26,8 +26,25 @@ def get_dl(soup):
     for dl in soup.findAll("li", {"class": "list-group-item"}):
         for dt in dl.findAll("dt"):
             keys.append(dt.text.strip())
-            for dd in dt.findNext("dd"):
-                values.append(dd.text.strip())
+            arr = []
+            dd = dt.findNext("dd")
+            #dd_next = dd.find_next_sibling("dd")
+            dt_next = dt.find_next_sibling("dt")
+            if (dt_next): 
+                dd_last = dt_next.find_next("dd")
+            
+            while (True):
+                if (dd):
+                    arr.append(dd.text.strip())
+                try:
+                    dd = dd.find_next_sibling("dd")
+                except: 
+                    dd = dd_last
+
+                if (dd != dd_last): continue
+                else: break
+            values.append(arr)               
+
     return dict(zip(keys, values))
 
 # URL2 structure: <p> <b>Attribute:</b> Value </p>
@@ -62,15 +79,16 @@ text_dict = get_text(habitat)
 
 # Keys needed from URL and URL2
 wanted = ["Family:", "Woody Plant Leaf Characteristics:", "Leaf Color:", "Deciduous Leaf Fall Color:", "Leaf Type:",
-           "Leaf Arrangement:", "Leaf Shape:", "Leaf Margin:", "Hairs Present:", "Leaf Length:", "Leaf Description:",
-             "USDA Plant Hardiness Zone:", "Country Or Region Of Origin:", "UF/IFAS Invasive Assessment Status:", "Invasive potential:", "Uses (Ethnobotany):",
+           "Leaf Arrangement:", "Leaf Shape:", "Leaf venation:", "Leaf Margin:", "Hairs Present:", "Leaf Length:",
+            "Leaf blade length:", "Fall color:", "Fall characteristic:", "Leaf Description:",
+             "USDA Plant Hardiness Zone:", "USDA hardiness zones:", "Country Or Region Of Origin:", "Origin:", "UF/IFAS Invasive Assessment Status:", "Invasive potential:", "Uses (Ethnobotany):",
                "Wildlife Value:", "Play Value:", "Edibility:", "Use Ornamental:", "Use Wildlife:", "Use Food:", "Height:", "Spread:", "Dimensions:",
                  "Flower Color:", "Flower Inflorescence:", "Flower Bloom Time:", "Flower Size:",
                "Flower Description:", "Fruit Color:", "Display/Harvest Time:", "Fruit Type:", "Fruit Length:", "Fruit Description:",
                "Bark Color:", "Surface/Attachment:", "Bark Plate Shape:", "Bark Description:", "Stem Color:", "Stem Is Aromatic:",
                  "Stem Buds:", "Stem Bud Terminal:", "Stem Cross Section:", "Stem Form:", "Stem Leaf Scar Shape:", "Stem Description:",
                  "USA:", "Canada:", "Native Distribution:", "Native Habitat:", "Water Use:", "Light Requirement:", "Soil Moisture:",
-                 "Soil pH:", "Cold Tolerant:", "Heat Tolerant: ", "",
+                 "Soil pH:", "Cold Tolerant:", "Heat Tolerant: ",
           "CaCO3 Tolerance:", "Drought Tolerance:", "Soil Description:", "Conditions Comments:", "Resistance To Challenges:",
             "Attracts:", "Problems:"]
 
@@ -85,16 +103,17 @@ for elem in wanted:
     alt2 = str(text_dict.get(elem))
 
     # If main or alt doesn't exist, its value becomes "None" instead of None because of str()
-    if (main != "None"):
-        final += elem
+
+    final += elem
+    if (main != "None"):       
         final += " " + main
     elif (alt != "None"):
-        final += elem
         final += alt
-    elif (alt2 != "None"):
-        final += elem
+    else:  
         final += alt2
-
     final += "\n"
 
+remove = ["[", "]", "'"]
+for i in remove:
+        final = final.replace(i, "")
 print(final)
