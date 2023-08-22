@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Forestry Webscraper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Forestry Webscraper
+      </h1>
+      <p class="subtitle">
+        Just type in the three URL's and go!
+      </p>
+      
+      <form action="{{ url_for("get_beer")}}" method="post">
+      <label>URL 1:</label>
+      <input type="text" id="url1" name="url1">
+      <br>
+      <label>URL 2:</label>
+      <input type="text" id="url2" name="url2">
+      <br>
+      <label>URL 3:</label>
+      <input type="text" id="url3" name="url3">
+      <br>
+      <button type="submit">Search</button>
+      <ul>
+        <li>{{info.0}}</li>
+        <li>{{info.1}}</li>
+        <li>{{info.2}}</li>
+        <li>{{info.3}}</li>
+        <li>{{info.4}}</li>
+        <li>{{info.5}}</li>
+        <li>{{info.6}}</li>
+        <li>{{info.7}}</li>
+        <li>{{info.8}}</li>
+        <li>{{info.9}}</li>
+        <li>{{info.10}}</li>
+        <li>{{info.11}}</li>
+        <li>{{info.12}}</li>
+        <li>{{info.13}}</li>
+        <li>{{info.14}}</li>
+        <li>{{info.15}}</li>
+        <li>{{info.16}}</li>
+        <li>{{info.17}}</li>
+        <li>{{info.18}}</li>
+        <li>{{info.19}}</li>
+        <li>{{info.20}}</li>
+        <li>{{info.21}}</li>
+        <li>{{info.22}}</li>
+        <li>{{info.23}}</li>
+        <br>
+        <li>{{info.24}}</li>
+        <li>{{info.25}}</li>
+        <li>{{info.26}}</li>
+        <li>{{info.27}}</li>
+        <li>{{info.28}}</li>
+        <li>{{info.29}}</li>
+        <li>{{info.30}}</li>
+        <li>{{info.31}}</li>
+        <li>{{info.32}}</li>
+        <li>{{info.33}}</li>
+        <li>{{info.34}}</li>
+        <li>{{info.35}}</li>
+        <li>{{info.36}}</li>
+        <li>{{info.37}}</li>
+        <li>{{info.38}}</li>
+        <li>{{info.39}}</li>
+        <li>{{info.40}}</li>
+        <li>{{info.41}}</li>
+        <li>{{info.42}}</li>
+        <li>{{info.43}}</li>
+        <li>{{info.44}}</li>
+        <li>{{info.45}}</li>
+        <li>{{info.46}}</li>
+        <li>{{info.47}}</li>
+        <li>{{info.48}}</li>
+        <li>{{info.49}}</li>
+        <li>{{info.50}}</li>
+        <li>{{info.51}}</li>
+        <li>{{info.52}}</li>
+        <li>{{info.53}}</li>
+        <li>{{info.54}}</li>
+        <li>{{info.55}}</li>
+        <li>{{info.56}}</li>
+        <li>{{info.57}}</li>
+      </ul>
+      <br>
+    </div>
+  </section>
+  </body>
+</html>
